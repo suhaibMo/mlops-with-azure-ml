@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   
 on: [push]
+
 name: Azure Login Sample
 
 jobs:
