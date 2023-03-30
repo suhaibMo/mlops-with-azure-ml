@@ -4,15 +4,6 @@ name: Manually trigger an Azure Machine Learning job
 on: 
   workflow_dispatch:
   name: Azure Login Sample
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log in with Azure
-        uses: azure/login@v1
-        with:
-          creds: '${{secrets.AZURE_CREDENTIALS}}'
           
 jobs:
   train:
@@ -29,3 +20,12 @@ jobs:
     - name: run ml job
       run: az ml job create --file job.yaml --resource-group cal-3444-bee --workspace-name mlw413c
       working-directory: src
+      
+      
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{secrets.AZURE_CREDENTIALS}}'
