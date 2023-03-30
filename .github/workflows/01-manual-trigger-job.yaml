@@ -3,7 +3,6 @@ name: Manually trigger an Azure Machine Learning job
 
 on: 
   workflow_dispatch:
-  name: Azure Login Sample
           
 jobs:
   train:
