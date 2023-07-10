@@ -1,0 +1,38 @@
+---
+name: Register and Deploy a Azure Machine Learning Model
+on:
+  workflow_dispatch: null
+jobs:
+  create:
+    name: create endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v2
+      - name: install az ml extension
+        run: az extension add -n ml -y
+      - name: azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: set current directory
+        run: cd src
+      - name: Create endpoint
+        run: az ml online-endpoint create --name price-prediction-ep -f src/create-endpoint.yaml cal-3658-7ab --workspace-name mlwa0d8
+  deploy:
+    name: deploy model
+    needs: create
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v2
+      - name: install az ml extension
+        run: az extension add -n ml -y
+      - name: azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: set current directory
+        run: cd src
+      - name: deploy model
+        run: az ml online-deployment create --name mlflow-deployment --endpoint price-prediction-ep -f src/mlflow-deployment.yaml cal-3658-7ab --workspace-name mlwa0d8 --all-traffic
