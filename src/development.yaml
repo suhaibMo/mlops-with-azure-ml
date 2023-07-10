@@ -1,0 +1,13 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+code: model
+command: >-
+  python main.py 
+  --training_data ${{inputs.training_data}}
+inputs:
+  training_data: 
+    path: azureml:nyc-taxi-data:1
+    mode: ro_mount  
+environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
+compute: cluster20230710T094114Z
+experiment_name: nyc-taxi-fare-prices
+description: Train a classification model on nyc taxi data to predict taxi fare prices.
