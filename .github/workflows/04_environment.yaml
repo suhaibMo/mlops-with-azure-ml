@@ -1,0 +1,44 @@
+---
+name: Environments
+on:
+  push:
+    branches:
+      - main
+jobs:
+  dev:
+    name: dev
+    runs-on: ubuntu-latest
+    environment:
+      name: development environment
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v2
+      - name: install az ml extension
+        run: az extension add -n ml -y
+      - name: azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: set current directory
+        run: cd src
+      - name: Run dev env job
+        run: az ml job create --file src/development.yaml --resource-group <rg-name> --workspace-name <ml-workspace-name> --stream
+  prod:
+    name: prod
+    needs: dev
+    runs-on: ubuntu-latest
+    environment:
+      name: production environment
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v2
+      - name: install az ml extension
+        run: az extension add -n ml -y
+      - name: azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: set current directory
+        run: cd src
+      - name: Run prod env job
+        run: az ml job create --file src/production.yaml --resource-group <rg-name> --workspace-name <ml-workspace-name> --stream  
