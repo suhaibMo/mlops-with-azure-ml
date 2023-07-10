@@ -16,7 +16,7 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: run ml job
-      run: az ml job create --file job.yaml --resource-group cal-3444-bee --workspace-name mlw413c
+      run: az ml job create --file job.yaml --resource-group rg-AML-MLOps --workspace-name MLOps-test
       working-directory: src
       
       
