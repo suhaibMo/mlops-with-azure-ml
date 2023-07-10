@@ -1,0 +1,13 @@
+name: Trigger a workflow to run when a pull request is merged 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pull request
+      run: echo "Checking how pull request works."
