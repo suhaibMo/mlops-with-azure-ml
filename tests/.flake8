@@ -1,0 +1,11 @@
+[flake8]
+ignore = 
+    W504,
+    C901,
+    E41
+max-line-length = 79
+exclude = 
+    .git,
+    .cache,
+max-complexity = 10
+import-order-style = pep8
